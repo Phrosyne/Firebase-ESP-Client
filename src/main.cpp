@@ -11,7 +11,8 @@
 #include <HX711.h>
 
 #define ms_To_S 1000000ULL
-#define seconds_To_Sleep 1800
+#define min_To_Sleep 30
+#define seconds_To_Sleep (min_To_Sleep * 60)
 
 const String FIREBASE_API_KEY = FIREBASE_API;
 const String FIREBASE_PROJECT_ID = PROJECT_ID;
@@ -73,7 +74,7 @@ void setup()
   sendDataToFirestore(sensorValue);
 
   //Deep sleep for half an hour
-  esp_sleep_enable_timer_wakeup(ms_To_S * seconds_To_Sleep);
+  esp_sleep_enable_timer_wakeup((uint64_t)(ms_To_S * seconds_To_Sleep));
   Serial.flush();
   WiFi.disconnect(true);
   esp_deep_sleep_start();
